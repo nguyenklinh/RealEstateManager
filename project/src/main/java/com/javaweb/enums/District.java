@@ -13,6 +13,10 @@ public enum District {
     QUAN_HA_DONG("Quận hà đông");
     private final String districtName;
 
+    public String getDistrictName() {
+        return districtName;
+    }
+
     District(String districtName) {
         this.districtName = districtName;
     }

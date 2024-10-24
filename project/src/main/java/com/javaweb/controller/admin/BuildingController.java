@@ -2,11 +2,14 @@ package com.javaweb.controller.admin;
 
 
 
+import com.javaweb.converter.BuildingSearchBuilderConverter;
 import com.javaweb.enums.District;
 import com.javaweb.enums.TypeCode;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.dto.BuildingSearchCriteriaDTO;
+import com.javaweb.model.request.BuildingSearchBuilder;
 import com.javaweb.model.response.BuildingSearchResponse;
+import com.javaweb.service.BuildingService;
 import com.javaweb.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,13 +25,19 @@ import java.util.List;
 @Controller(value="buildingControllerOfAdmin")
 public class BuildingController {
     @Autowired
+    private BuildingService buildingService;
+    @Autowired
     private IUserService userService;
 
  @GetMapping(value = "/admin/building-list")
-    public ModelAndView buildinglist(@ModelAttribute BuildingSearchCriteriaDTO BuildingSearchCriteriaDTO, HttpServletRequest request){
+    public ModelAndView buildinglist(@ModelAttribute BuildingSearchCriteriaDTO buildingSearchCriteriaDTO, HttpServletRequest request){
      ModelAndView mav= new ModelAndView("admin/building/list");
-     mav.addObject("modelSearch",BuildingSearchCriteriaDTO);
+     mav.addObject("modelSearch",buildingSearchCriteriaDTO);
      //xuong database xu ly lay dc du lieu phuhop
+     BuildingSearchBuilder criteria = BuildingSearchBuilderConverter.converterToEntity(buildingSearchCriteriaDTO);
+     List<BuildingSearchResponse> result = buildingService.findAll(criteria);
+
+
      List<BuildingSearchResponse> responseList = new ArrayList<>();
      BuildingSearchResponse item1 = new BuildingSearchResponse();
      item1.setName("building");

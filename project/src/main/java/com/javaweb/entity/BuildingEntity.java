@@ -55,8 +55,8 @@ public class BuildingEntity extends BaseEntity{
     @Column(name= "managername")
     private String managerName;
 
-    @Column(name= "managerphonenumber")
-    private String managerPhoneNumber;
+    @Column(name= "managerphone")
+    private String managerPhone;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "buildingEntity")
     List<AssignmentBuildingEntity> assignmentBuildingEntities  = new ArrayList<>();
@@ -182,11 +182,11 @@ public class BuildingEntity extends BaseEntity{
     }
 
     public String getManagerPhoneNumber() {
-        return managerPhoneNumber;
+        return managerPhone;
     }
 
     public void setManagerPhoneNumber(String managerPhoneNumber) {
-        this.managerPhoneNumber = managerPhoneNumber;
+        this.managerPhone = managerPhoneNumber;
     }
 
 }

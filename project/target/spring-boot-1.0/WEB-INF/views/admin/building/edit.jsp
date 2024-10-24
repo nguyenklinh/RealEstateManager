@@ -128,73 +128,86 @@
                             <div class="form-group">
                                 <label  class="col-xs-3">phí ô tô</label>
                                 <div class="col-xs-9">
+                                    <form:input class="form-control" path="carFee"></form:input>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label  class="col-xs-3">phí mô tô</label>
+                                <div class="col-xs-9">
                                     <form:input class="form-control" path="motoFee"></form:input>
                                 </div>
                             </div>
-                            <!-- <div class="form-group">
-                                <label for="" class="col-xs-3">phí mô giới</label>
+                            <div class="form-group">
+                                <label  class="col-xs-3">phí ngoài giờ</label>
                                 <div class="col-xs-9">
-                                    <input class="form-control" type="number" id="name" name="name">
+                                    <form:input class="form-control" path="overtimeFee"></form:input>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="" class="col-xs-3">phí ngoài giờ</label>
+                                <label  class="col-xs-3">tiền nước</label>
                                 <div class="col-xs-9">
-                                    <input class="form-control" type="number" id="name" name="name">
+                                    <form:input class="form-control" path="waterFee"></form:input>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="" class="col-xs-3">tiền điện</label>
+                                <label  class="col-xs-3">tiền điện</label>
                                 <div class="col-xs-9">
-                                    <input class="form-control" type="number" id="name" name="name">
+                                    <form:input class="form-control" path="electricityFee"></form:input>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="" class="col-xs-3">đặt cọc</label>
+                                <label  class="col-xs-3">đặt cọc</label>
                                 <div class="col-xs-9">
-                                    <input class="form-control" type="number" id="name" name="name">
+                                    <form:input class="form-control" path="deposit"></form:input>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="" class="col-xs-3">thanh toán</label>
+                                <label  class="col-xs-3">thanh toán</label>
                                 <div class="col-xs-9">
-                                    <input class="form-control" type="text" id="name" name="name">
+                                    <form:input class="form-control" path="payment"></form:input>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="" class="col-xs-3">thời hạn thuê</label>
+                                <label  class="col-xs-3">thời hạn thuê</label>
                                 <div class="col-xs-9">
-                                    <input class="form-control" type="text" id="name" name="name">
+                                    <form:input class="form-control" path="rentTime"></form:input>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="" class="col-xs-3">thời gian trang trí</label>
+                                <label  class="col-xs-3">thời gian trang trí</label>
                                 <div class="col-xs-9">
-                                    <input class="form-control" type="text" id="name" name="name">
+                                    <form:input class="form-control" path="decorationTime"></form:input>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="" class="col-xs-3">tên tòa nhà</label>
+                                <label  class="col-xs-3">tên quả lý</label>
                                 <div class="col-xs-9">
-                                    <input class="form-control" type="text" id="name" name="name">
+                                    <form:input class="form-control" path="managerName"></form:input>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="" class="col-xs-3">tên tòa nhà</label>
+                                <label  class="col-xs-3">SĐT quản lý</label>
                                 <div class="col-xs-9">
-                                    <input class="form-control" type="text" id="name" name="name">
+                                    <form:input class="form-control" path="managerPhone"></form:input>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="" class="col-xs-3">tên tòa nhà</label>
+                                <label  class="col-xs-3">phí môi giới</label>
                                 <div class="col-xs-9">
-                                    <input class="form-control" type="text" id="name" name="name">
+                                    <form:input class="form-control" path="brokerageFee"></form:input>
                                 </div>
-                            </div> -->
+                            </div>
+
                             <div class="form-group">
                                 <label  class="col-xs-3">loại tòa nhà</label>
                                 <div class="col-xs-6">
                                     <form:checkboxes  path="typeCode" items="${typecodes}" cssStyle="margin-left: 15px; display: inline-block;"></form:checkboxes>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label  class="col-xs-3">ghi chú</label>
+                                <div class="col-xs-9">
+                                    <form:input class="form-control" path="note"></form:input>
                                 </div>
                             </div>
                             <!-- <div class="form-group">

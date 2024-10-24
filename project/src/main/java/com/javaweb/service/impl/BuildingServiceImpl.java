@@ -2,6 +2,8 @@ package com.javaweb.service.impl;
 
 import com.javaweb.entity.BuildingEntity;
 import com.javaweb.entity.UserEntity;
+import com.javaweb.model.request.BuildingSearchBuilder;
+import com.javaweb.model.response.BuildingSearchResponse;
 import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.model.response.StaffResponseDTO;
 import com.javaweb.repository.AssignmentBuildingRepository;
@@ -43,5 +45,13 @@ public class BuildingServiceImpl implements BuildingService {
         responseDTO.setData(staffResponseDTOS);
         responseDTO.setMessage("succsess");
         return responseDTO;
+    }
+
+    @Override
+    public List<BuildingSearchResponse> findAll(BuildingSearchBuilder buildingSearchBuilder) {
+        List<BuildingEntity> buildingEntities =   buildingRepository.findAllBuilding(buildingSearchBuilder);
+        List<BuildingSearchResponse> ok = new ArrayList<>();
+        String a="ok";
+        return ok;
     }
 }
