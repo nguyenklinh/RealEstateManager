@@ -5,12 +5,13 @@ import java.util.stream.Collectors;
 
 public class SqlConditionBuilder {
     public static String buildCondition(String column, Object value){
-        if(value == null){
+        if(value == null ){
             return "";
         }
         // Trường hợp value là một danh sách
         if (value instanceof List) {
             List<String> values = (List<String>) value;
+            if(values.size() == 0){return "";}
             StringBuilder condition = new StringBuilder();
             for (String val : values) {
                 if (condition.length() > 0) {

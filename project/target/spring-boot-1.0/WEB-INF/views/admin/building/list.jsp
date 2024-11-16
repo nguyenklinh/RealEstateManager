@@ -240,9 +240,9 @@
                                         <td>${item.managerName}</td>
                                         <td>${item.managerPhoneNumber}</td>
                                         <td>${item.floorArea}</td>
-                                        <td>${item.name}</td>
-                                        <td>${item.name}</td>
-                                        <td>${item.name}</td>
+                                        <td>${item.emptyArea}</td>
+                                        <td>${item.rentArea}</td>
+                                        <td>${item.brokerageFee}</td>
 
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
@@ -402,15 +402,15 @@
         var data={};
         data['buildingId'] = $('#buildingId').val();
         var buildingIds = $('#tableList').find('tbody input[type=checkbox]:checked').map(function(){
-            return $(this).val();
+            return Number($(this).val());
         }).get();
         deleteBuildings(buildingIds);
     })
-    function deleteBuildings(data){
+    function deleteBuildings(buildingIds){
         $.ajax({
-            type:"Delete",
-            url:"/api/building/"+data,
-            data:JSON.stringify(data),
+            type:"DELETE",
+            url:"/api/building",
+            data:JSON.stringify(buildingIds),
             contentType:"application/json",
             dataType:"JSON",
             success:function(respond){

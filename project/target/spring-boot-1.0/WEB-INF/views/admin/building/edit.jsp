@@ -269,6 +269,7 @@
         window.location.href = "${pageContext.request.contextPath}/admin/building-edit?typeCode=require";
     }
         //call api
+
     });
 
     function addOrUpdateBuilding(data){

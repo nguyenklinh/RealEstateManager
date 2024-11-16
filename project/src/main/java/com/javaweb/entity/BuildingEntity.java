@@ -60,6 +60,24 @@ public class BuildingEntity extends BaseEntity{
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "buildingEntity")
     List<AssignmentBuildingEntity> assignmentBuildingEntities  = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "buildingEntity")
+    List<RentAreaEntity> rentAreaEntities = new ArrayList<>();
+
+    public String getManagerPhone() {
+        return managerPhone;
+    }
+
+    public void setManagerPhone(String managerPhone) {
+        this.managerPhone = managerPhone;
+    }
+
+    public List<RentAreaEntity> getRentAreaEntities() {
+        return rentAreaEntities;
+    }
+
+    public void setRentAreaEntities(List<RentAreaEntity> rentAreaEntities) {
+        this.rentAreaEntities = rentAreaEntities;
+    }
 
     public List<AssignmentBuildingEntity> getAssignmentBuildingEntities() {
         return assignmentBuildingEntities;

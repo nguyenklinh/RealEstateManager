@@ -1,10 +1,12 @@
 package com.javaweb.api.admin;
 
+import com.javaweb.entity.BuildingEntity;
 import com.javaweb.model.dto.AssignmentBuildingDTO;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.service.BuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,13 +17,16 @@ public class BuildingAPI {
     @Autowired
     private BuildingService buildingService;
     @PostMapping
-    public BuildingDTO addOrUpdateBuilding(@RequestBody BuildingDTO buildingDTO){
-    return buildingDTO;
+    public BuildingEntity addOrUpdateBuilding(@RequestBody BuildingDTO buildingDTO){
+        System.out.println("ok");
+        return buildingService.addBuilding(buildingDTO);
     }
 
-    @DeleteMapping("/{ids}")
-    public void deleteBuilding(@PathVariable List<Long> ids){
-    //xuong db xoa theo id
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT) // Trả về mã 204 khi xóa thành công
+    public void deleteBuilding(@RequestBody List<Long> ids){
+    //xuong db xoa theo iD
+        buildingService.deleteBuildings(ids);
         System.out.println("ok");
     }
     @GetMapping("/{id}/staffs")

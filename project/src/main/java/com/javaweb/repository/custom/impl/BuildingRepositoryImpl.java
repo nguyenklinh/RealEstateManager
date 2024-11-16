@@ -52,8 +52,9 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
         conditions.put("b.rentprice <",buildingSearchBuilder.getPriceTo());
         conditions.put("b.managername",buildingSearchBuilder.getManagerName());
         conditions.put("b.managerphone",buildingSearchBuilder.getManagerPhone());
-        conditions.put("assignmentbuilding.staffid",buildingSearchBuilder.getStaffId());
         conditions.put("b.type",buildingSearchBuilder.getTypeCode());
+        conditions.put("assignmentbuilding.staffid",buildingSearchBuilder.getStaffId());
+
 
         conditions.forEach((column, value)->{
             if (value != null){

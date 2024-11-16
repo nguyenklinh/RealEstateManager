@@ -1,17 +1,24 @@
 package com.javaweb.service.impl;
 
+import com.javaweb.converter.BuildingConverter;
+import com.javaweb.converter.BuildingSearchResponseConverter;
 import com.javaweb.entity.BuildingEntity;
+import com.javaweb.entity.RentAreaEntity;
 import com.javaweb.entity.UserEntity;
+import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.request.BuildingSearchBuilder;
 import com.javaweb.model.response.BuildingSearchResponse;
 import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.model.response.StaffResponseDTO;
 import com.javaweb.repository.AssignmentBuildingRepository;
 import com.javaweb.repository.BuildingRepository;
+import com.javaweb.repository.RentAreaRepository;
 import com.javaweb.repository.UserRepository;
 import com.javaweb.service.BuildingService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +31,13 @@ public class BuildingServiceImpl implements BuildingService {
     private BuildingRepository buildingRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private BuildingSearchResponseConverter buildingSearchResponseConverter;
+    @Autowired
+    private RentAreaRepository rentAreaRepository;
+    @Autowired
+    private BuildingConverter buildingConverter;
+
     @Override
     public ResponseDTO listStaffs(Long buildingId) {
         List<UserEntity> staffs = userRepository.findByStatusAndRoles_Code(1,"STAFF");
@@ -50,8 +64,45 @@ public class BuildingServiceImpl implements BuildingService {
     @Override
     public List<BuildingSearchResponse> findAll(BuildingSearchBuilder buildingSearchBuilder) {
         List<BuildingEntity> buildingEntities =   buildingRepository.findAllBuilding(buildingSearchBuilder);
-        List<BuildingSearchResponse> ok = new ArrayList<>();
-        String a="ok";
-        return ok;
+        List<BuildingSearchResponse> result = new ArrayList<>();
+        for (BuildingEntity item : buildingEntities){
+            BuildingSearchResponse building = buildingSearchResponseConverter.toBuildingSearchResponse(item);
+            result.add(building);
+        }
+        return result;
+    }
+    @Override
+    public BuildingEntity addBuilding(BuildingDTO buildingDTO){
+        BuildingEntity buildingEntity = buildingConverter.toBuildingEntity(buildingDTO);
+
+        BuildingEntity saveBuildingEntity = buildingRepository.save(buildingEntity);
+
+        if (buildingDTO.getRentArea() != null && !buildingDTO.getRentArea().isEmpty()) {
+            String[] rentAreas = buildingDTO.getRentArea().split(",");
+            for (String rentArea : rentAreas) {
+                RentAreaEntity rentAreaEntity = new RentAreaEntity();
+                rentAreaEntity.setValue(Long.parseLong(rentArea.trim()));
+                rentAreaEntity.setBuildingEntity(saveBuildingEntity);
+                rentAreaRepository.save(rentAreaEntity);
+            }
+        }
+        return saveBuildingEntity;
+    }
+
+    @Override
+    @Transactional
+    public void deleteBuildings(List<Long> ids) {
+        for (Long buildingId : ids){
+            assignmentBuildingRepository.deleteByBuildingEntity_Id(buildingId);
+            rentAreaRepository.deleteByBuildingEntity_Id(buildingId);
+            buildingRepository.deleteById(buildingId);
+        }
+    }
+
+    @Override
+    public BuildingDTO findById(Long id) {
+        BuildingEntity buildingEntity = buildingRepository.findById(id).get();
+        BuildingDTO buildingDTO= buildingConverter.toBuildingDTO(buildingEntity);
+        return buildingDTO;
     }
 }

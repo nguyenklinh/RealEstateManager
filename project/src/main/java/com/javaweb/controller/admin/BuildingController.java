@@ -3,6 +3,7 @@ package com.javaweb.controller.admin;
 
 
 import com.javaweb.converter.BuildingSearchBuilderConverter;
+import com.javaweb.entity.BuildingEntity;
 import com.javaweb.enums.District;
 import com.javaweb.enums.TypeCode;
 import com.javaweb.model.dto.BuildingDTO;
@@ -35,26 +36,8 @@ public class BuildingController {
      mav.addObject("modelSearch",buildingSearchCriteriaDTO);
      //xuong database xu ly lay dc du lieu phuhop
      BuildingSearchBuilder criteria = BuildingSearchBuilderConverter.converterToEntity(buildingSearchCriteriaDTO);
-     List<BuildingSearchResponse> result = buildingService.findAll(criteria);
+     List<BuildingSearchResponse> responseList = buildingService.findAll(criteria);
 
-
-     List<BuildingSearchResponse> responseList = new ArrayList<>();
-     BuildingSearchResponse item1 = new BuildingSearchResponse();
-     item1.setName("building");
-     item1.setId(1L);
-     item1.setAddress("quang trung duong pham ngu lao quan 1");
-     item1.setNumberOfBasement(4L);
-     item1.setManagerName("anh long");
-     item1.setManagerPhoneNumber("0932637642");
-     BuildingSearchResponse item2 = new BuildingSearchResponse();
-     item2.setName("building 2");
-     item2.setId(2L);
-     item2.setAddress("quang trung duong pham ngu lao quan 2");
-     item2.setNumberOfBasement(3L);
-     item2.setManagerName("anh linh");
-     item2.setManagerPhoneNumber("0932877642");
-     responseList.add(item1);
-     responseList.add(item2);
      mav.addObject("buildingList",responseList);
      mav.addObject("listStaffs",userService.getStaffs());
      mav.addObject("districts", District.type());
@@ -75,9 +58,9 @@ public class BuildingController {
     public ModelAndView buildingedit(@PathVariable("id") Long id, HttpServletRequest request){
         ModelAndView mav= new ModelAndView("admin/building/edit");
         // xuong dtbase tim building theo id
-         BuildingDTO buildingDTO = new BuildingDTO();
-         buildingDTO.setId(id);
-         buildingDTO.setName("builidng abc");
+
+         BuildingDTO buildingDTO = buildingService.findById(id);
+
          mav.addObject("buildingEdit", buildingDTO);
          mav.addObject("districts", District.type());
          mav.addObject("typecodes", TypeCode.type());
