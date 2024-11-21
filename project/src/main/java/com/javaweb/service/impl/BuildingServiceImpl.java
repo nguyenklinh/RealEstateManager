@@ -72,6 +72,7 @@ public class BuildingServiceImpl implements BuildingService {
         return result;
     }
     @Override
+    @Transactional
     public BuildingEntity addBuilding(BuildingDTO buildingDTO){
         BuildingEntity buildingEntity = buildingConverter.toBuildingEntity(buildingDTO);
 
@@ -79,6 +80,7 @@ public class BuildingServiceImpl implements BuildingService {
 
         if (buildingDTO.getRentArea() != null && !buildingDTO.getRentArea().isEmpty()) {
             String[] rentAreas = buildingDTO.getRentArea().split(",");
+            rentAreaRepository.deleteByBuildingEntity_Id(buildingDTO.getId());
             for (String rentArea : rentAreas) {
                 RentAreaEntity rentAreaEntity = new RentAreaEntity();
                 rentAreaEntity.setValue(Long.parseLong(rentArea.trim()));
@@ -86,6 +88,7 @@ public class BuildingServiceImpl implements BuildingService {
                 rentAreaRepository.save(rentAreaEntity);
             }
         }
+        System.out.println("ok");
         return saveBuildingEntity;
     }
 
