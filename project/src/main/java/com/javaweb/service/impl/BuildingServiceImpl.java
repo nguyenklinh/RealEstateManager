@@ -5,6 +5,7 @@ import com.javaweb.converter.BuildingSearchResponseConverter;
 import com.javaweb.entity.BuildingEntity;
 import com.javaweb.entity.RentAreaEntity;
 import com.javaweb.entity.UserEntity;
+import com.javaweb.model.dto.AssignmentBuildingDTO;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.request.BuildingSearchBuilder;
 import com.javaweb.model.response.BuildingSearchResponse;
@@ -108,4 +109,5 @@ public class BuildingServiceImpl implements BuildingService {
         BuildingDTO buildingDTO= buildingConverter.toBuildingDTO(buildingEntity);
         return buildingDTO;
     }
+
 }

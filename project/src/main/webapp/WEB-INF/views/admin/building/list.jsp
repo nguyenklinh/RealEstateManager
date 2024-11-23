@@ -324,12 +324,21 @@
 </div>
 
 <script>
-    function assingmentBuilding(buildingId){
-        $('#assingmentBuildingmodal').modal();
-        loadStaff(buildingId);
+    function assingmentBuilding(buildingId) {
+        // Đặt giá trị buildingId trước khi mở modal
         $('#buildingId').val(buildingId);
 
+        // Mở modal và đảm bảo focus vào modal
+        $('#assingmentBuildingmodal').modal({
+            backdrop: 'static', // Ngăn không cho đóng modal khi click ra ngoài
+            keyboard: true      // Cho phép đóng bằng phím ESC
+        }).on('shown.bs.modal', function () {
+            // Focus vào nút hoặc phần tử đầu tiên bên trong modal
+            $('#btnassingmentBuilding').focus();
+        });
+        loadStaff(buildingId);
     }
+
 
     function loadStaff(buildingId){
         $.ajax({
@@ -375,13 +384,11 @@
             url:"/api/building/"+"assignment",
             data:JSON.stringify(data),
             contentType:"application/json",
-            dataType:"JSON",
             success:function(response){
                 console.log("success");
             },
             error: function(response){
                 console.info("giao không thành công");
-                window.location.href ="<c:url value = "/admin/building-list?message=erro"/>";
                 console.log(response);
             }
         });
