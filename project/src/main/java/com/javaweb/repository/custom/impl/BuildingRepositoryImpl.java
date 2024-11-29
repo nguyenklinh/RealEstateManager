@@ -4,6 +4,9 @@ import com.javaweb.entity.BuildingEntity;
 import com.javaweb.model.request.BuildingSearchBuilder;
 import com.javaweb.repository.custom.BuildingRepositoryCustom;
 import com.javaweb.utils.SqlConditionBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -19,13 +22,24 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
     @PersistenceContext
     private EntityManager entityManager;
     @Override
-    public List<BuildingEntity> findAllBuilding(BuildingSearchBuilder buildingSearchBuilder) {
+    public Page<BuildingEntity> findAllBuilding(BuildingSearchBuilder buildingSearchBuilder, Pageable pageable) {
         StringBuilder sql = new StringBuilder("SELECT DISTINCT b.* FROM building b");
         joinTable(buildingSearchBuilder,sql);
         sql.append(" where 1 = 1 ");
         generateQueryConditions(buildingSearchBuilder,sql);
-        Query query = entityManager.createNativeQuery(sql.toString(),BuildingEntity.class);
-        return query.getResultList();
+        // Tính tổng số bản ghi phù hợp
+        String countSql = "SELECT COUNT(*) FROM (" + sql.toString() + ") AS countQuery";
+        Query countQuery = entityManager.createNativeQuery(countSql);
+        Long totalRecords = ((Number) countQuery.getSingleResult()).longValue();
+
+        // Áp dụng phân trang
+        sql.append(" LIMIT ").append(pageable.getPageSize())
+                .append(" OFFSET ").append(pageable.getOffset());
+        Query query = entityManager.createNativeQuery(sql.toString(), BuildingEntity.class);
+        List<BuildingEntity> buildingEntities = query.getResultList();
+
+        // Tạo Page object
+        return new PageImpl<>(buildingEntities, pageable, totalRecords);
     }
 
     public static void joinTable(BuildingSearchBuilder buildingSearchBuilder, StringBuilder sql){

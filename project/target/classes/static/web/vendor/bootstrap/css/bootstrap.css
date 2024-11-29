@@ -2440,6 +2440,10 @@ fieldset:disabled a.btn {
   background-color: #007bff;
   border-color: #007bff;
 }
+.page-item.disabled .page-link {
+  pointer-events: none;
+  opacity: 0.5;
+}
 
 .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
 .show > .btn-primary.dropdown-toggle {

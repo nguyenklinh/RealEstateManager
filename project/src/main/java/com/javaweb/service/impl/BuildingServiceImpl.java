@@ -18,11 +18,15 @@ import com.javaweb.repository.UserRepository;
 import com.javaweb.service.BuildingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BuildingServiceImpl implements BuildingService {
@@ -63,15 +67,14 @@ public class BuildingServiceImpl implements BuildingService {
     }
 
     @Override
-    public List<BuildingSearchResponse> findAll(BuildingSearchBuilder buildingSearchBuilder) {
-        List<BuildingEntity> buildingEntities =   buildingRepository.findAllBuilding(buildingSearchBuilder);
-        List<BuildingSearchResponse> result = new ArrayList<>();
-        for (BuildingEntity item : buildingEntities){
-            BuildingSearchResponse building = buildingSearchResponseConverter.toBuildingSearchResponse(item);
-            result.add(building);
-        }
-        return result;
+    public Page<BuildingSearchResponse> findAll(BuildingSearchBuilder buildingSearchBuilder, Pageable pageable) {
+        Page<BuildingEntity> buildingEntitiesPage = buildingRepository.findAllBuilding(buildingSearchBuilder, pageable);
+        List<BuildingSearchResponse> responseList = buildingEntitiesPage.getContent().stream()
+                .map(buildingSearchResponseConverter::toBuildingSearchResponse)
+                .collect(Collectors.toList());
+        return new PageImpl<>(responseList, pageable, buildingEntitiesPage.getTotalElements());
     }
+
     @Override
     @Transactional
     public BuildingEntity addBuilding(BuildingDTO buildingDTO){
