@@ -41,9 +41,8 @@
                 </h1>
             </div><!-- /.page-header -->
             <div class= "row" style="font-family: 'Times New Roman', Times, serif;">
-                <form:form modelAttribute="buildingEdit" id="listForm" method="get">
+                <form:form modelAttribute="buildingEdit" id="listForm" method="post" enctype="multipart/form-data">
                     <div class="col-xs-12 ">
-                        <form class="form-horizontal" role="form" id="form-edit">
                             <div class="form-group">
                                 <label class="col-xs-3">tên tòa nhà</label>
                                 <div class="col-xs-9">
@@ -210,12 +209,30 @@
                                     <form:input class="form-control" path="note"></form:input>
                                 </div>
                             </div>
-                            <!-- <div class="form-group">
-                                <label for="" class="col-xs-3">tên tòa nhà</label>
-                                <div class="col-xs-9">
-                                    <input class="form-control" type="text" id="name" name="name">
+
+                            <!-- Bắt đầu: Mục ảnh minh họa -->
+                            <div class="form-group">
+                                <label  class="col-xs-3">ảnh minh họa</label>
+                                <input class="col-sm-3 no-padding-right" type="file" id="avatarFile" name="avatarFile" accept=".png, .jpg, .jpeg"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label  class="col-xs-3"></label>
+                                <img title="avatar preview" class="col-xs-5"  alt="avatar preview"
+                                id="avatarPreview"/>
+                            </div>
+
+                            <!-- Kết thúc: Mục ảnh minh họa -->
+                            <c:if test="${not empty buildingEdit.avatar}">
+                                <div class="form-group">
+                                    <label class="col-xs-3">Ảnh hiện tại</label>
+                                    <div class="col-xs-5">
+                                        <img src="${buildingEdit.avatar}" alt="Current Avatar" style="max-height: 250px;">
+                                    </div>
                                 </div>
-                            </div> -->
+                            </c:if>
+
+
 
                             <div class="col-xs-12">
                                 <div class="col-xs-3"></div>
@@ -240,7 +257,6 @@
                                 </div>
                             </div>
                             <form:hidden path="id" id="buildingId"></form:hidden>
-                        </form>
                     </div>
                 </form:form>
 
@@ -250,41 +266,73 @@
         </div><!-- /.page-content -->
     </div>
 </div><!-- /.main-content -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
-    $('#btnAddOrUpdateBuilding').click(function(){
-        var data= {};
-        var typeCode = [];
-        var formData = $('#listForm').serializeArray();
-        $.each(formData, function(i,v){
-            if(v.name != 'typeCode'){
-                data[""+v.name+""]= v.value;
-            }else{
-                typeCode.push(v.value);
+    $(document).ready(() => {
+        const avatarFile = $("#avatarFile");
+        avatarFile.change(function (e){
+            const imgURL = URL.createObjectURL(e.target.files[0]);
+            $("#avatarPreview").attr("src",imgURL);
+            $("#avatarPreview").css({"display":"block"})
+        })
+    })
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#buildingImage').on('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const url = URL.createObjectURL(file); // Tạo đường dẫn tạm thời
+                $('#preview').attr('src', url).show(); // Gắn đường dẫn vào ảnh và hiển thị
+            } else {
+                $('#preview').hide(); // Ẩn ảnh nếu không có file
             }
         });
-        data["typeCode"] = typeCode;
-        if(typeCode != ""){
-            addOrUpdateBuilding(data);
-        }else {
-        window.location.href = "${pageContext.request.contextPath}/admin/building-edit?typeCode=require";
-    }
-        //call api
+    });
+</script>
+<script>
+    $('#btnAddOrUpdateBuilding').click(function () {
+        var data = new FormData($('#listForm')[0]); // Gửi toàn bộ form, bao gồm cả hình ảnh
+        var typeCode = [];
 
+        //Thêm dữ liệu của các trường không phải là file
+        var formData = $('#listForm').serializeArray();
+        $.each(formData, function (i, v) {
+            if (v.name != 'typeCode') {
+                // data.append(v.name, v.value); // Append các field khác
+                console.log("hehe");
+            } else {
+                typeCode.push(v.value); // Thêm dữ liệu của trường typeCode
+            }
+        });
+
+        // Thêm dữ liệu của typeCode vào formData
+        // data.append('typeCode', typeCode);
+
+        if (typeCode.length !== 0) {
+            $('#loading_image').show();  // Hiển thị loading
+            addOrUpdateBuilding(data);   // Gọi hàm gửi dữ liệu
+        } else {
+            window.location.href = "<c:url value = '/admin/building-list?typeCode=require'/>";
+        }
     });
 
-    function addOrUpdateBuilding(data){
+
+    function addOrUpdateBuilding(data) {
         $.ajax({
-            type:"POST",
-            url:"/api/building",
-            data:JSON.stringify(data),
-            contentType:"application/json",
-            dataType:"JSON",
-            success:function(respond){
-                console.log("success");
+            type: "POST",
+            url: "/api/building",
+            data: data,
+            contentType: false,  // Không cần content-type, vì là FormData
+            processData: false,  // Không xử lý dữ liệu
+            success: function (response) {
+                window.location.href = "<c:url value = '/admin/building-list?message=success'/>";
+                alert("Thêm tòa nhà thành công!!!");
             },
-            error: function(respond){
-                console.log("erro");
-                console.log(respond);
+            error: function (response) {
+                console.log("failed");
+                window.location.href = "<c:url value = '/admin/building-edit?message=error'/>";
             }
         });
     }

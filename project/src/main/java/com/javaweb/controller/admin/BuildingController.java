@@ -40,7 +40,7 @@ public class BuildingController {
      ModelAndView mav= new ModelAndView("admin/building/list");
      Pageable pageable = PageRequest.of(page-1,3);
      mav.addObject("modelSearch",buildingSearchCriteriaDTO);
-     //xuong database xu ly lay dc du lieu phuhop
+
      BuildingSearchBuilder criteria = BuildingSearchBuilderConverter.converterToEntity(buildingSearchCriteriaDTO);
      Page<BuildingSearchResponse> responsePage = buildingService.findAll(criteria,pageable);
 

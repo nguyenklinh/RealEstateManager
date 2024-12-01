@@ -7,9 +7,16 @@ import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.service.AssignmentBuildingService;
 import com.javaweb.service.BuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController(value = "buildingAPIOfAdmin")
@@ -19,11 +26,33 @@ public class BuildingAPI {
     private BuildingService buildingService;
     @Autowired
     private AssignmentBuildingService assignmentBuildingService;
+    @Value("${file.upload-dir}")
+    private String uploadDir;
     @PostMapping
-    public BuildingEntity addOrUpdateBuilding(@RequestBody BuildingDTO buildingDTO){
-        System.out.println("ok");
-        return buildingService.addBuilding(buildingDTO);
+    public ResponseEntity<BuildingEntity> addOrUpdateBuilding(
+            @ModelAttribute BuildingDTO buildingDTO,
+            @RequestParam("avatarFile") MultipartFile avatarFile) {
+        try {
+            // Lưu file ảnh
+            if (!avatarFile.isEmpty()) {
+                String fileName = avatarFile.getOriginalFilename();
+                Path filePath = Paths.get(uploadDir, fileName);
+                Files.createDirectories(filePath.getParent());
+                avatarFile.transferTo(filePath.toFile());
+
+                // Lưu đường dẫn file vào DTO
+                buildingDTO.setAvatar("/img/" + fileName);
+            }
+
+            // Lưu thông tin building
+            BuildingEntity savedBuilding = buildingService.addBuilding(buildingDTO);
+            return ResponseEntity.ok(savedBuilding);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
+
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT) // Trả về mã 204 khi xóa thành công
