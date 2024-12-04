@@ -83,7 +83,7 @@
                                                     <div class="col-xs-2">
                                                         <label class="name">quận</label>
                                                         <form:select class="form-control" path="district">
-                                                            <form:option value="">-----chọn quận-----</form:option>
+                                                            <form:option value="">-----Bỏ chọn-----</form:option>
                                                             <form:options items="${districts}"/>
                                                         </form:select>
 
@@ -152,7 +152,7 @@
                                                     <div class="col-xs-2">
                                                         <label class="name">nhân viên</label>
                                                         <form:select class="form-control" path="staffId">
-                                                            <form:option value="">-----chọn nhân viên-----</form:option>
+                                                            <form:option value="">-----Bỏ chọn-----</form:option>
                                                             <form:options items="${listStaffs}"/>
                                                         </form:select>
                                                     </div>
@@ -273,7 +273,7 @@
                                 <ul class="pagination">
                                     <!-- Previous Button -->
                                     <li class="page-item ${currentPage == 1 ? 'hidden' : ''}">
-                                        <a class="page-link" href="?page=${currentPage - 1}" aria-label="Previous">
+                                        <a class="page-link" href="#" onclick="navigateToPage(${currentPage - 1})" aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                             <span class="sr-only">Previous</span>
                                         </a>
@@ -282,13 +282,13 @@
                                     <!-- Page Numbers -->
                                     <c:forEach var="i" begin="1" end="${totalPages}">
                                         <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                            <a class="page-link" href="?page=${i}">${i}</a>
+                                            <a class="page-link" href="#" onclick="navigateToPage(${i})">${i}</a>
                                         </li>
                                     </c:forEach>
 
                                     <!-- Next Button -->
                                     <li class="page-item ${currentPage == totalPages ? 'hidden' : ''}">
-                                        <a class="page-link " href="?page=${currentPage + 1}" aria-label="Next">
+                                        <a class="page-link" href="#" onclick="navigateToPage(${currentPage + 1})" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                             <span class="sr-only">Next</span>
                                         </a>
@@ -352,6 +352,19 @@
 </div>
 
 <script>
+
+        function navigateToPage(page) {
+        // Lấy các tham số hiện tại từ URL
+        const params = new URLSearchParams(window.location.search);
+
+        // Cập nhật hoặc thêm tham số page
+        params.set("page", page);
+
+        // Tạo URL mới với tham số page
+            window.location.href = window.location.pathname + "?" + params.toString();
+    }
+
+
     function assingmentBuilding(buildingId) {
         // Đặt giá trị buildingId trước khi mở modal
         $('#buildingId').val(buildingId);

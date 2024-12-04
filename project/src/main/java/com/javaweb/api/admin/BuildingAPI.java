@@ -35,9 +35,9 @@ public class BuildingAPI {
         try {
             // Lưu file ảnh
             if (!avatarFile.isEmpty()) {
-                String fileName = avatarFile.getOriginalFilename();
+                String fileName = avatarFile.getOriginalFilename();//get fileName
                 Path filePath = Paths.get(uploadDir, fileName);
-                Files.createDirectories(filePath.getParent());
+                Files.createDirectories(filePath.getParent());//tao thu muc filepath neu chua ton tai
                 avatarFile.transferTo(filePath.toFile());
 
                 // Lưu đường dẫn file vào DTO
