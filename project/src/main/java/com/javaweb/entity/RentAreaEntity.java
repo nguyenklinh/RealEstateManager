@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class RentAreaEntity extends BaseEntity{
     @Column(name = "value")
     private Long value;
+
     @ManyToOne
     @JoinColumn(name = "buildingid")
     private BuildingEntity buildingEntity;

@@ -11,7 +11,7 @@ import com.javaweb.model.request.BuildingSearchBuilder;
 import com.javaweb.model.response.BuildingSearchResponse;
 import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.model.response.StaffResponseDTO;
-import com.javaweb.repository.AssignmentBuildingRepository;
+//import com.javaweb.repository.AssignmentBuildingRepository;
 import com.javaweb.repository.BuildingRepository;
 import com.javaweb.repository.RentAreaRepository;
 import com.javaweb.repository.UserRepository;
@@ -30,8 +30,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class BuildingServiceImpl implements BuildingService {
-    @Autowired
-    private AssignmentBuildingRepository assignmentBuildingRepository;
+//    @Autowired
+//    private AssignmentBuildingRepository assignmentBuildingRepository;
     @Autowired
     private BuildingRepository buildingRepository;
     @Autowired
@@ -46,7 +46,7 @@ public class BuildingServiceImpl implements BuildingService {
     @Override
     public ResponseDTO listStaffs(Long buildingId) {
         List<UserEntity> staffs = userRepository.findByStatusAndRoles_Code(1,"STAFF");
-        List<UserEntity> staffAssignment = assignmentBuildingRepository.findUsersByBuildingId(buildingId);
+        List<UserEntity> staffAssignment = userRepository.findByBuildingEntitiesId(buildingId);
         List<StaffResponseDTO> staffResponseDTOS = new ArrayList<>();
         ResponseDTO responseDTO = new ResponseDTO();
         for(UserEntity it: staffs){
@@ -80,29 +80,27 @@ public class BuildingServiceImpl implements BuildingService {
     public BuildingEntity addBuilding(BuildingDTO buildingDTO){
         BuildingEntity buildingEntity = buildingConverter.toBuildingEntity(buildingDTO);
 
-        BuildingEntity saveBuildingEntity = buildingRepository.save(buildingEntity);
+        List<RentAreaEntity> rentAreaEntities = new ArrayList<>();
 
         if (buildingDTO.getRentArea() != null && !buildingDTO.getRentArea().isEmpty()) {
+
+            // Tạo mới danh sách các RentAreaEntity và thêm vào buildingEntity
             String[] rentAreas = buildingDTO.getRentArea().split(",");
-            rentAreaRepository.deleteByBuildingEntity_Id(buildingDTO.getId());
             for (String rentArea : rentAreas) {
                 RentAreaEntity rentAreaEntity = new RentAreaEntity();
-                rentAreaEntity.setValue(Long.parseLong(rentArea.trim()));
-                rentAreaEntity.setBuildingEntity(saveBuildingEntity);
-                rentAreaRepository.save(rentAreaEntity);
+                rentAreaEntity.setValue(Long.valueOf(rentArea.trim()));
+                rentAreaEntity.setBuildingEntity(buildingEntity); // Ràng buộc quan hệ
+                rentAreaEntities.add(rentAreaEntity);
             }
+            buildingEntity.setRentAreaEntities(rentAreaEntities);
         }
-        return saveBuildingEntity;
+        return buildingRepository.save(buildingEntity);
     }
 
     @Override
     @Transactional
     public void deleteBuildings(List<Long> ids) {
-        for (Long buildingId : ids){
-            assignmentBuildingRepository.deleteByBuildingEntity_Id(buildingId);
-            rentAreaRepository.deleteByBuildingEntity_Id(buildingId);
-            buildingRepository.deleteById(buildingId);
-        }
+        buildingRepository.deleteByIdIn(ids);
     }
 
     @Override
@@ -110,6 +108,15 @@ public class BuildingServiceImpl implements BuildingService {
         BuildingEntity buildingEntity = buildingRepository.findById(id).get();
         BuildingDTO buildingDTO= buildingConverter.toBuildingDTO(buildingEntity);
         return buildingDTO;
+    }
+
+    @Override
+    @Transactional
+    public void addAssignmentBuilding(AssignmentBuildingDTO assignmentBuildingDTO) {
+        BuildingEntity buildingEntity = buildingRepository.findById(assignmentBuildingDTO.getBuildingId()).get();
+        List<UserEntity> userEntities = userRepository.findByIdIn(assignmentBuildingDTO.getStaffs());
+        buildingEntity.setUserEntities(userEntities);
+        buildingRepository.save(buildingEntity);
     }
 
 }

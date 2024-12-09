@@ -227,7 +227,7 @@
                                 <div class="form-group">
                                     <label class="col-xs-3">Ảnh hiện tại</label>
                                     <div class="col-xs-5">
-                                        <img src="${buildingEdit.avatar}" alt="Current Avatar">
+                                        <img class="col-xs-12" src="${buildingEdit.avatar}" alt="Current Avatar">
                                     </div>
                                 </div>
                             </c:if>

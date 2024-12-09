@@ -1,13 +1,12 @@
 package com.javaweb.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 @Entity
 @Table(name= "building")
 
@@ -58,9 +57,17 @@ public class BuildingEntity extends BaseEntity{
     @Column(name= "managerphone")
     private String managerPhone;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "buildingEntity")
-    List<AssignmentBuildingEntity> assignmentBuildingEntities  = new ArrayList<>();
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "buildingEntity")
+
+//    @ManyToMany(mappedBy = "buildingEntities", cascade = CascadeType.MERGE)
+//    private List<UserEntity> userEntities = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(name = "assignmentbuilding",
+            joinColumns = @JoinColumn(name = "buildingid", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "staffid", nullable = false))
+    private List<UserEntity> userEntities = new ArrayList<>();
+
+    @OneToMany(mappedBy = "buildingEntity", cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonIgnore
     List<RentAreaEntity> rentAreaEntities = new ArrayList<>();
 
     public String getManagerPhone() {
@@ -79,12 +86,14 @@ public class BuildingEntity extends BaseEntity{
         this.rentAreaEntities = rentAreaEntities;
     }
 
-    public List<AssignmentBuildingEntity> getAssignmentBuildingEntities() {
-        return assignmentBuildingEntities;
+
+
+    public List<UserEntity> getUserEntities() {
+        return userEntities;
     }
 
-    public void setAssignmentBuildingEntities(List<AssignmentBuildingEntity> assignmentBuildingEntities) {
-        this.assignmentBuildingEntities = assignmentBuildingEntities;
+    public void setUserEntities(List<UserEntity> userEntities) {
+        this.userEntities = userEntities;
     }
 
     public String getName() {

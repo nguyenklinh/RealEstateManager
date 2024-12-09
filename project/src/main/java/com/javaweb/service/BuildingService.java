@@ -20,5 +20,7 @@ public interface BuildingService {
     BuildingEntity addBuilding(BuildingDTO buildingDTO);
     void deleteBuildings(List<Long> ids);
     BuildingDTO findById(Long id);
+
+    void addAssignmentBuilding(AssignmentBuildingDTO assignmentBuildingDTO);
 }
 

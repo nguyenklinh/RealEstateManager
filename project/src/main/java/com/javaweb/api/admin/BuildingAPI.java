@@ -24,8 +24,8 @@ import java.util.List;
 public class BuildingAPI {
     @Autowired
     private BuildingService buildingService;
-    @Autowired
-    private AssignmentBuildingService assignmentBuildingService;
+//    @Autowired
+//    private AssignmentBuildingService assignmentBuildingService;
     @Value("${file.upload-dir}")
     private String uploadDir;
     @PostMapping
@@ -68,7 +68,8 @@ public class BuildingAPI {
     }
     @PostMapping("assignment")
     public void updateAssignmentBuilding(@RequestBody AssignmentBuildingDTO assignmentBuildingDTO){
-        assignmentBuildingService.updateAssignmentBuildingSv(assignmentBuildingDTO);
+//        assignmentBuildingService.updateAssignmentBuildingSv(assignmentBuildingDTO);
+        buildingService.addAssignmentBuilding(assignmentBuildingDTO);
         System.out.println("okmen");
     }
 }
