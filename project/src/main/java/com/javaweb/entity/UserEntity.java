@@ -37,6 +37,9 @@ public class UserEntity extends BaseEntity {
     @ManyToMany(mappedBy = "userEntities")
     private List<BuildingEntity> buildingEntities = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "userEntities")
+    private List<CustomerEntity> customerEntities = new ArrayList<>();
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id", nullable = false),
@@ -57,6 +60,14 @@ public class UserEntity extends BaseEntity {
 //    public void setAssignmentBuildingEntities(List<AssignmentBuildingEntity> assignmentBuildingEntities) {
 //        this.assignmentBuildingEntities = assignmentBuildingEntities;
 //    }
+
+    public List<CustomerEntity> getCustomerEntities() {
+        return customerEntities;
+    }
+
+    public void setCustomerEntities(List<CustomerEntity> customerEntities) {
+        this.customerEntities = customerEntities;
+    }
 
     public List<BuildingEntity> getBuildingEntities() {
         return buildingEntities;
