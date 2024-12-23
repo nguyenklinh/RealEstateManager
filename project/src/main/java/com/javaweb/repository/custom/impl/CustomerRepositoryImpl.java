@@ -28,7 +28,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
     public Page<CustomerEntity> findAll(CustomerSearchCriteriaDTO criteriaDTO, Pageable pageable) {
         StringBuilder sql = new StringBuilder("SELECT DISTINCT c.* FROM customer c");
         joinTable(criteriaDTO,sql);
-        sql.append(" where 1 = 1 ");
+        sql.append(" where 1 = 1 and c.is_active = 1 ");
         generateQueryConditions(criteriaDTO,sql);
         // Tính tổng số bản ghi phù hợp
         String countSql = "SELECT COUNT(*) FROM (" + sql.toString() + ") AS countQuery";

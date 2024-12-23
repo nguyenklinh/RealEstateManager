@@ -149,13 +149,16 @@
                                                         <label class="name">SDT quản lý</label>
                                                         <form:input class="form-control" path="managerPhoneNumber"/>
                                                     </div>
-                                                    <div class="col-xs-2">
-                                                        <label class="name">nhân viên</label>
-                                                        <form:select class="form-control" path="staffId">
-                                                            <form:option value="">-----Bỏ chọn-----</form:option>
-                                                            <form:options items="${listStaffs}"/>
-                                                        </form:select>
-                                                    </div>
+                                                    <security:authorize access="hasRole('MANAGER')">
+                                                        <div class="col-xs-2">
+                                                            <label class="name">nhân viên</label>
+                                                            <form:select class="form-control" path="staffId">
+                                                                <form:option value="">-----Bỏ chọn-----</form:option>
+                                                                <form:options items="${listStaffs}"/>
+                                                            </form:select>
+                                                        </div>
+                                                    </security:authorize>
+
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -247,9 +250,11 @@
 
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
-                                                <button class="btn btn-xs btn-success" title="giao tòa nhà" onclick="assingmentBuilding(${item.id})">
-                                                    <i class="ace-icon fa fa-check bigger-120"></i>
-                                                </button>
+                                                <security:authorize access="hasRole('MANAGER')">
+                                                    <button class="btn btn-xs btn-success" title="giao tòa nhà" onclick="assingmentBuilding(${item.id})">
+                                                        <i class="ace-icon fa fa-check bigger-120"></i>
+                                                    </button>
+                                                </security:authorize>
 
                                                 <a class="btn btn-xs btn-info" title="sửa tòa nhà" href="/admin/building-edit-${item.id}">
                                                     <i class="ace-icon fa fa-pencil bigger-120"></i>

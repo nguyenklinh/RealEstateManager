@@ -1,14 +1,17 @@
 package com.javaweb.service.impl;
 
+import com.javaweb.converter.CustomerConverter;
 import com.javaweb.converter.CustomerSearchResponseConverter;
 import com.javaweb.entity.CustomerEntity;
 import com.javaweb.entity.UserEntity;
+import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.model.dto.CustomerSearchCriteriaDTO;
 import com.javaweb.model.response.BuildingSearchResponse;
 import com.javaweb.model.response.CustomerSearchResponse;
 import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.model.response.StaffResponseDTO;
 import com.javaweb.repository.CustomerRepository;
+import com.javaweb.repository.TransactionRepository;
 import com.javaweb.repository.UserRepository;
 import com.javaweb.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,10 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerSearchResponseConverter customerSearchResponseConverter;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CustomerConverter customerConverter;
+    @Autowired
+    private TransactionRepository transactionRepository;
     @Override
     public Page<CustomerSearchResponse> findAll(CustomerSearchCriteriaDTO criteriaDTO, Pageable pageable) {
         Page<CustomerEntity> customerEntityPage = customerRepository.findAll(criteriaDTO, pageable);
@@ -59,5 +66,29 @@ public class CustomerServiceImpl implements CustomerService {
         responseDTO.setData(staffResponseDTOS);
         responseDTO.setMessage("succsess");
         return responseDTO;
+    }
+
+    @Override
+    public CustomerDTO findById(Long id) {
+        CustomerEntity customerEntity = customerRepository.findById(id).get();
+        CustomerDTO customerDTO = customerConverter.toCustomerDTO(customerEntity);
+        return customerDTO;
+    }
+
+    @Override
+    public void deleteCustomersByIds(List<Long> ids) {
+        for(Long it : ids)
+        {
+            CustomerEntity customerEntity = customerRepository.findById(it).get();
+            customerEntity.setIsActive("0");
+            customerRepository.save(customerEntity);
+        }
+    }
+
+    @Override
+    public CustomerEntity addOrUpdateCustomer(CustomerDTO customerDTO) {
+        CustomerEntity customerEntity = customerConverter.toCustomerEntity(customerDTO);
+        customerRepository.save(customerEntity);
+        return customerEntity;
     }
 }

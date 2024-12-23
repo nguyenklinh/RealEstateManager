@@ -10,6 +10,7 @@ import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.dto.BuildingSearchCriteriaDTO;
 import com.javaweb.model.request.BuildingSearchBuilder;
 import com.javaweb.model.response.BuildingSearchResponse;
+import com.javaweb.security.utils.SecurityUtils;
 import com.javaweb.service.BuildingService;
 import com.javaweb.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,10 @@ public class BuildingController {
      Pageable pageable = PageRequest.of(page-1,3);
      mav.addObject("modelSearch",buildingSearchCriteriaDTO);
 
+     if(SecurityUtils.getAuthorities().contains("ROLE_STAFF")){
+         Long staffId = SecurityUtils.getPrincipal().getId();
+         buildingSearchCriteriaDTO.setStaffId(staffId);
+     }
      BuildingSearchBuilder criteria = BuildingSearchBuilderConverter.converterToEntity(buildingSearchCriteriaDTO);
      Page<BuildingSearchResponse> responsePage = buildingService.findAll(criteria,pageable);
 

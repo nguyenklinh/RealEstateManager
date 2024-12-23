@@ -173,11 +173,11 @@
                                                     <i class="ace-icon fa fa-check bigger-120"></i>
                                                 </button>
 
-                                                <a class="btn btn-xs btn-info" title="sửa khach hang" href="/admin/building-edit-${item.id}">
+                                                <a class="btn btn-xs btn-info" title="sửa khach hang" href="/admin/customer-edit-${item.id}">
                                                     <i class="ace-icon fa fa-pencil bigger-120"></i>
                                                 </a>
 
-                                                <button class="btn btn-xs btn-danger" title="xóa khach hang" onclick="deleteBuilding(${item.id})">
+                                                <button class="btn btn-xs btn-danger" title="xóa khach hang" onclick="deleteCustomer(${item.id})">
                                                     <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                 </button>
 
@@ -319,7 +319,37 @@
         });
     }
 
+    function deleteCustomer(id){
+        var customerId = [id];
+        deleteCustomers(customerId);
+    }
 
+    $('#btnDeleteCustomer').click(function(e) {
+        e.preventDefault();
+        var data={};
+        data['customerId'] = $('#customerId').val();
+        var customerIds = $('#tableList').find('tbody input[type=checkbox]:checked').map(function(){
+            return Number($(this).val());
+        }).get();
+        deleteCustomers(customerIds);
+    })
+    function deleteCustomers(customerIds){
+        $.ajax({
+            type:"DELETE",
+            url:"/api/customer",
+            data:JSON.stringify(customerIds),
+            contentType:"application/json",
+            dataType:"JSON",
+            success:function(respond){
+                window.location.href= "/admin/customer-list";
+                alert("xóa thành công!!!");
+            },
+            error: function(respond){
+                console.log("erro");
+                console.log(respond);
+            }
+        });
+    }
 </script>
 
 </body>
