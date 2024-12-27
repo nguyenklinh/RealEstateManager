@@ -1,5 +1,6 @@
 # Identity service
-This project is responsible for managing transactions, buildings, customers, and users. It includes features for adding, updating, and deleting records, as well as handling file uploads and managing user profiles and passwords.
+This project is responsible for managing transactions, buildings, customers, and users. 
+It includes features for adding, updating, and deleting records, as well as handling file uploads and managing user profiles and passwords.
 
 ## Tech stack
 * Build tool: maven
