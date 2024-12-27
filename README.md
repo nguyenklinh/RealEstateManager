@@ -10,6 +10,6 @@ It includes features for adding, updating, and deleting records, as well as hand
 * DBMS: MySQL
 
 ## Prerequisites
-* Java SDK 1.8
+* Java JDK 1.8
 * Server: Tomcat 9.x.x
 * A MySQL server
