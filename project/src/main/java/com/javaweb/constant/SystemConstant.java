@@ -1,7 +1,7 @@
 package com.javaweb.constant;
 
 public class SystemConstant {
-    /*Spring security 4: ROLE_ADMIN, Spring security 3 not required*/
+    public static final String  LOAD_SUCCESS = "load_success";
     public static final String ONE_EQUAL_ONE = " WHERE 1 = 1 ";
     public static final String STAFF_ROLE = "ROLE_STAFF";
     public static final String ADMIN_ROLE = "ROLE_ADMIN";
@@ -13,6 +13,7 @@ public class SystemConstant {
     public static final String MODEL = "model";
     public static final String INSERT_SUCCESS = "insert_success";
     public static final String UPDATE_SUCCESS = "update_success";
+    public static final String UPDATE_FAIL = "update_FAIL";
     public static final String DELETE_SUCCESS = "delete_success";
     public static final String ERROR_SYSTEM = "error_system";
     public static final String ALERT = "alert";

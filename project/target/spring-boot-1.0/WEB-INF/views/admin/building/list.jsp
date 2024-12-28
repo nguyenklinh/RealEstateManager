@@ -394,7 +394,7 @@
             dataType:"JSON",
             success:function(response){
                 var row='';
-                $.each(response.data,function (index,item){
+                $.each(response.result.data,function (index,item){
                    row+= '<tr>';
                    row+= '<td class="center"> <input type="checkbox" value='+item.staffId +' '+ item.checked  +'/></td>';
                    row+= '<td>'+item.fullName +'</td>';
@@ -431,11 +431,11 @@
             data:JSON.stringify(data),
             contentType:"application/json",
             success:function(response){
-                console.log("success");
+                alert("giao thành công");
+                $('#assingmentBuildingmodal').modal('hide');
             },
             error: function(response){
-                console.info("giao không thành công");
-                console.log(response);
+                alert("giao thất bại");
             }
         });
     }
@@ -467,11 +467,11 @@
             contentType:"application/json",
             dataType:"JSON",
             success:function(respond){
-                console.log("success");
+                alert("xóa thành công");
+                location.reload();
             },
             error: function(respond){
-                console.log("erro");
-                console.log(respond);
+                alert("xóa thất bại");
             }
         });
     }

@@ -202,10 +202,13 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
     $('#btnAddOrUpdateCustomer').click(function () {
-        var data = new FormData($('#listForm')[0]); // Gửi toàn bộ form, bao gồm cả hình ảnh
-        //Thêm dữ liệu của các trường không phải là file
         var formData = $('#listForm').serializeArray();
-        addOrUpdateCustomer(data);
+        var customerData = {};
+        formData.forEach(function(item) {
+            customerData[item.name] = item.value;
+        });
+
+        addOrUpdateCustomer(customerData);
     });
 
     function addTransaction(){
@@ -237,16 +240,21 @@
         $.ajax({
             type: "POST",
             url: "/api/customer",
-            data: data,
-            contentType: false,  // Không cần content-type, vì là FormData
-            processData: false,  // Không xử lý dữ liệu
+            data: JSON.stringify(data),
+            contentType: "application/json",
             success: function (response) {
                 window.location.href = "<c:url value = '/admin/customer-list?message=success'/>";
                 alert("Thêm thành công!!!");
             },
             error: function (response) {
-                console.log("failed");
-                window.location.href = "<c:url value = '/admin/customer-edit?message=error'/>";
+                if (response.status === 400) {
+                    const errors = response.responseJSON; // Mảng lỗi từ backend
+                    let errorMessage = "Đã xảy ra lỗi:\n";
+                    alert(errorMessage);
+                } else {
+                    console.log("failed");
+                    alert("Có lỗi xảy ra, vui lòng thử lại!");
+                }
             }
         });
     }

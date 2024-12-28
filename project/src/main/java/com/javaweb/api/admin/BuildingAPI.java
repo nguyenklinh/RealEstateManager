@@ -1,8 +1,12 @@
 package com.javaweb.api.admin;
 
+import com.javaweb.constant.SystemConstant;
 import com.javaweb.entity.BuildingEntity;
+import com.javaweb.enums.ErrorCode;
+import com.javaweb.exception.MyException;
 import com.javaweb.model.dto.AssignmentBuildingDTO;
 import com.javaweb.model.dto.BuildingDTO;
+import com.javaweb.model.response.ApiResponse;
 import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.service.AssignmentBuildingService;
 import com.javaweb.service.BuildingService;
@@ -13,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,12 +29,10 @@ import java.util.List;
 public class BuildingAPI {
     @Autowired
     private BuildingService buildingService;
-//    @Autowired
-//    private AssignmentBuildingService assignmentBuildingService;
     @Value("${file.upload-dir}")
     private String uploadDir;
     @PostMapping
-    public ResponseEntity<BuildingEntity> addOrUpdateBuilding(
+    public ResponseEntity<?> addOrUpdateBuilding(@Valid
             @ModelAttribute BuildingDTO buildingDTO,
             @RequestParam("avatarFile") MultipartFile avatarFile) {
         try {
@@ -43,33 +46,51 @@ public class BuildingAPI {
                 // Lưu đường dẫn file vào DTO
                 buildingDTO.setAvatar("/img/" + fileName);
             }
-
             // Lưu thông tin building
             BuildingEntity savedBuilding = buildingService.addBuilding(buildingDTO);
-            return ResponseEntity.ok(savedBuilding);
+            return ResponseEntity.ok(ApiResponse.builder()
+                    .success(true)
+                    .message(SystemConstant.UPDATE_SUCCESS)
+                    .result(savedBuilding)
+                    .build());
         } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            throw new MyException(ErrorCode.ADD_OR_UPDATE_BUILDING_FAIL);
         }
     }
 
 
     @DeleteMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT) // Trả về mã 204 khi xóa thành công
-    public void deleteBuilding(@RequestBody List<Long> ids){
-    //xuong db xoa theo iD
-        buildingService.deleteBuildings(ids);
-        System.out.println("ok");
+    public ResponseEntity<?> deleteBuilding(@RequestBody List<Long> ids){
+        try {
+            buildingService.deleteBuildings(ids);
+            return ResponseEntity.ok(ApiResponse.builder()
+                    .success(true)
+                    .message(SystemConstant.DELETE_SUCCESS)
+                    .build());
+        }catch (Exception e){
+            throw new MyException(ErrorCode.DELETE_BUILDING_FAIL);
+        }
     }
     @GetMapping("/{id}/staffs")
-    public ResponseDTO loadStaffs(@PathVariable Long id){
-        ResponseDTO result = buildingService.listStaffs(id);
-        return result;
+    public ResponseEntity<?> loadStaffs(@PathVariable Long id){
+            ResponseDTO result = buildingService.listStaffs(id);
+            return ResponseEntity.ok(ApiResponse.builder()
+                    .success(true)
+                    .message(SystemConstant.LOAD_SUCCESS)
+                    .result(result)
+                    .build());
+
     }
     @PostMapping("assignment")
-    public void updateAssignmentBuilding(@RequestBody AssignmentBuildingDTO assignmentBuildingDTO){
-//        assignmentBuildingService.updateAssignmentBuildingSv(assignmentBuildingDTO);
-        buildingService.addAssignmentBuilding(assignmentBuildingDTO);
-        System.out.println("okmen");
+    public ResponseEntity<?> updateAssignmentBuilding(@RequestBody AssignmentBuildingDTO assignmentBuildingDTO){
+        try {
+            buildingService.addAssignmentBuilding(assignmentBuildingDTO);
+            return ResponseEntity.ok(ApiResponse.builder()
+                    .success(true)
+                    .message(SystemConstant.UPDATE_SUCCESS)
+                    .build());
+        }catch (Exception e){
+            throw new MyException(ErrorCode.ASSIGNMENT_UPDATE_FAIL);
+        }
     }
 }

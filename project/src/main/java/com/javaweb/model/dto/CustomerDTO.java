@@ -1,9 +1,16 @@
 package com.javaweb.model.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class CustomerDTO extends AbstractDTO{
+    @NotBlank(message = "NAME_BLANK")
     private String fullName;
     private String managementStaff;
+    @NotBlank(message = "PHONE_BLANK")
     private String phone;
+    @Email(message = "EMAIL_NOT_VALID")
     private String email;
     private String demand;
     private String status;

@@ -2,6 +2,7 @@ package com.javaweb.service.impl;
 
 import com.javaweb.constant.SystemConstant;
 import com.javaweb.converter.UserConverter;
+import com.javaweb.enums.ErrorCode;
 import com.javaweb.model.dto.PasswordDTO;
 import com.javaweb.model.dto.UserDTO;
 import com.javaweb.entity.RoleEntity;
@@ -157,7 +158,7 @@ public class UserService implements IUserService {
             user.setPassword(passwordEncoder.encode(passwordDTO.getNewPassword()));
             userRepository.save(user);
         } else {
-            throw new MyException(SystemConstant.CHANGE_PASSWORD_FAIL);
+            throw new MyException(ErrorCode.CHANGE_PASSWORD_FAIL);
         }
     }
 
