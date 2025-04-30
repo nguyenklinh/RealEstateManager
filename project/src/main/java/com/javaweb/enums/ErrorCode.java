@@ -16,6 +16,7 @@ public enum ErrorCode {
     ASSIGNMENT_UPDATE_FAIL(3003, "Failed to update building assignment", HttpStatus.BAD_REQUEST),
     ADD_OR_UPDATE_BUILDING_FAIL(3004,"Failed to add or update building",HttpStatus.BAD_REQUEST),
     DELETE_BUILDING_FAIL(3005, "Failed to delete building", HttpStatus.BAD_REQUEST),
+    ASSIGNMENT_CUSTOMER_FAIL(3006, "Failed to assign customer", HttpStatus.BAD_REQUEST),
     SUCCESS(1000, "Success" , HttpStatus.OK),
     ;
 

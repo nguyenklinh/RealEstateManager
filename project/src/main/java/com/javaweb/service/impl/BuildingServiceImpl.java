@@ -119,4 +119,10 @@ public class BuildingServiceImpl implements BuildingService {
         buildingRepository.save(buildingEntity);
     }
 
+    @Override
+    public Page<BuildingEntity> getAllBuildings(String district, String name, Pageable pageable) {
+        return buildingRepository.getAllBuildings(district, name, pageable);
+    }
+
+
 }

@@ -22,5 +22,8 @@ public interface BuildingService {
     BuildingDTO findById(Long id);
 
     void addAssignmentBuilding(AssignmentBuildingDTO assignmentBuildingDTO);
+
+    Page<BuildingEntity> getAllBuildings(String district, String name, Pageable pageable);
+
 }
 

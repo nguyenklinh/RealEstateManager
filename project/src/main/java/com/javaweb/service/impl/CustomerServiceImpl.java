@@ -4,6 +4,7 @@ import com.javaweb.converter.CustomerConverter;
 import com.javaweb.converter.CustomerSearchResponseConverter;
 import com.javaweb.entity.CustomerEntity;
 import com.javaweb.entity.UserEntity;
+import com.javaweb.model.dto.AssignmentCustomerDTO;
 import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.model.dto.CustomerSearchCriteriaDTO;
 import com.javaweb.model.response.BuildingSearchResponse;
@@ -90,5 +91,13 @@ public class CustomerServiceImpl implements CustomerService {
         CustomerEntity customerEntity = customerConverter.toCustomerEntity(customerDTO);
         customerRepository.save(customerEntity);
         return customerEntity;
+    }
+
+    @Override
+    public void addAssignmentCustomer(AssignmentCustomerDTO assignmentCustomerDTO) {
+        CustomerEntity customerEntity = customerRepository.findById(assignmentCustomerDTO.getCustomerId()).get();
+        List<UserEntity> staffs = userRepository.findByIdIn(assignmentCustomerDTO.getStaffs());
+        customerEntity.setUserEntities(staffs);
+        customerRepository.save(customerEntity);
     }
 }

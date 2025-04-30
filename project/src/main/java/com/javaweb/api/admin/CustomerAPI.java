@@ -5,6 +5,7 @@ import com.javaweb.entity.BuildingEntity;
 import com.javaweb.entity.CustomerEntity;
 import com.javaweb.enums.ErrorCode;
 import com.javaweb.exception.MyException;
+import com.javaweb.model.dto.AssignmentCustomerDTO;
 import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.model.response.ApiResponse;
 import com.javaweb.model.response.ResponseDTO;
@@ -58,4 +59,18 @@ public class CustomerAPI {
             throw new MyException(ErrorCode.DELETE_CUSTOMER_FAIL);
         }
     }
+
+    @PostMapping("/assignment")
+    public ResponseEntity<?> updateAssignmentCustomer(@RequestBody AssignmentCustomerDTO assignmentCustomerDTO){
+        try {
+            customerService.addAssignmentCustomer(assignmentCustomerDTO);
+            return ResponseEntity.ok(ApiResponse.builder()
+                    .success(true)
+                    .message(SystemConstant.ASSIGNMENT_SUCCESS)
+                    .build());
+        }catch (Exception e){
+            throw new MyException(ErrorCode.ASSIGNMENT_CUSTOMER_FAIL);
+        }
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.javaweb.service;
 
 import com.javaweb.entity.CustomerEntity;
+import com.javaweb.model.dto.AssignmentCustomerDTO;
 import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.model.dto.CustomerSearchCriteriaDTO;
 import com.javaweb.model.request.BuildingSearchBuilder;
@@ -21,5 +22,7 @@ public interface CustomerService {
     void deleteCustomersByIds(List<Long> ids);
 
     CustomerEntity addOrUpdateCustomer(CustomerDTO customerDTO);
+
+    void addAssignmentCustomer(AssignmentCustomerDTO assignmentCustomerDTO);
 
 }

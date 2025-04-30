@@ -303,7 +303,7 @@
             dataType:"JSON",
             success:function(response){
                 var row='';
-                $.each(response.data,function (index,item){
+                $.each(response.result.data,function (index,item){
                     row+= '<tr>';
                     row+= '<td class="center"> <input type="checkbox" value='+item.staffId +' '+ item.checked  +'/></td>';
                     row+= '<td>'+item.fullName +'</td>';
@@ -315,6 +315,36 @@
             error: function(response){
                 console.log("erro");
                 console.log(response);
+            }
+        });
+    }
+
+    $('#btnassingmentCustomer').click(function(e) {
+        e.preventDefault();
+        var data={};
+        data['customerId'] = $('#customerId').val();
+        var staffs = $('#staffList').find('tbody input[type=checkbox]:checked').map(function(){
+            return $(this).val();
+        }).get();
+        data['staffs'] = staffs;
+        if(data['staffs'] != ''){
+            assingment(data);
+        }
+        console.log("ok");
+    })
+
+    function assingment(data){
+        $.ajax({
+            type:"POST",
+            url:"/api/customer/"+"assignment",
+            data:JSON.stringify(data),
+            contentType:"application/json",
+            success:function(response){
+                alert("giao thành công");
+                $('#assingmentCustomerModal').modal('hide');
+            },
+            error: function(response){
+                alert("giao thất bại");
             }
         });
     }
