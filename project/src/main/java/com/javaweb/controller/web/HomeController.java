@@ -2,6 +2,7 @@ package com.javaweb.controller.web;
 
 import com.javaweb.entity.BuildingEntity;
 import com.javaweb.enums.District;
+import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.request.SearchForm;
 import com.javaweb.model.response.BuildingSearchResponse;
@@ -41,6 +42,14 @@ public class HomeController {
         ModelAndView mav = new ModelAndView("web/introduce");
         return mav;
     }
+	@GetMapping(value = "/{id}")
+	public ModelAndView buildingDetail(@PathVariable Long id) {
+		ModelAndView mav = new ModelAndView("web/detail");
+		BuildingDTO buildingDTO = buildingService.findById(id);
+		mav.addObject("building", buildingDTO);
+		mav.addObject("districts", District.type());
+		return mav;
+	}
 
     @GetMapping(value="/san-pham")
     public ModelAndView buidingList(@RequestParam(defaultValue = "1") int page,
@@ -69,6 +78,7 @@ public class HomeController {
         ModelAndView mav = new ModelAndView("/web/news");
         return mav;
     }
+
 
     @GetMapping(value="/lien-he")
     public ModelAndView contact(){

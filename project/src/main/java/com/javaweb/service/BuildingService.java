@@ -25,5 +25,6 @@ public interface BuildingService {
 
     Page<BuildingEntity> getAllBuildings(String district, String name, Pageable pageable);
 
+
 }
 

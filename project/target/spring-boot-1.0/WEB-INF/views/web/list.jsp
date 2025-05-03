@@ -75,7 +75,7 @@
                             <div class="product1-image" style="background-image: url('${building.avatar}');"></div>
                             <div class="product1-content card-body">
                                 <h5 class="product1-content-header">
-                                    <a href="/chi-tiet/${building.id}"><c:out value="${building.name}"/></a>
+                                    <a href="/san-pham/${building.id}"><c:out value="${building.name}"/></a>
                                 </h5>
                                 <p class="product1-content-title text-muted"><c:out value="${building.rentPriceDescription}"/></p>
                                 <ul class="product1-content-list list-unstyled">
@@ -95,7 +95,7 @@
                             </div>
                             <div class="product1-footer card-footer d-flex justify-content-between align-items-center">
                                 <span class="product1-footer-cost text-primary fw-bold"><c:out value="${building.rentPrice}"/></span>
-                                <a href="/chi-tiet/${building.id}" class="btn btn-primary btn-sm">Xem chi tiết</a>
+                                <a href="${building.id}" class="btn btn-primary btn-sm">Xem chi tiết</a>
                             </div>
                         </div>
                     </div>
@@ -245,6 +245,8 @@
         // Tạo URL mới với tham số page
         window.location.href = window.location.pathname + "?" + params.toString();
     }
+
+
     </script>
 
 </body>
