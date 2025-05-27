@@ -9,6 +9,7 @@ import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.model.dto.CustomerSearchCriteriaDTO;
 import com.javaweb.model.dto.TransactionDTO;
 import com.javaweb.model.response.CustomerSearchResponse;
+import com.javaweb.security.utils.SecurityUtils;
 import com.javaweb.service.CustomerService;
 import com.javaweb.service.TransactionService;
 import com.javaweb.service.impl.UserService;
@@ -40,6 +41,11 @@ public class CustomerController {
                                      HttpServletRequest request){
         Pageable pageable = PageRequest.of(page-1,3);
         ModelAndView mav= new ModelAndView("admin/customer/list");
+
+        if(SecurityUtils.getAuthorities().contains("ROLE_STAFF")){
+            Long staffId = SecurityUtils.getPrincipal().getId();
+            customerSearchCriteriaDTO.setStaffId(staffId);
+        }
         Page<CustomerSearchResponse> responsePage = customerService.findAll(customerSearchCriteriaDTO,pageable);
         mav.addObject("currentPage", page);
         mav.addObject("totalPages", responsePage.getTotalPages());

@@ -62,6 +62,7 @@
     </li>
 </ul>
 
+    <security:authorize access="hasRole('MANAGER')">
     <ul class="nav nav-list">
         <li class="">
             <a href="#" class="dropdown-toggle">
@@ -80,6 +81,7 @@
             </ul>
         </li>
     </ul>
+    </security:authorize>
 
     <ul class="nav nav-list">
         <li class="">

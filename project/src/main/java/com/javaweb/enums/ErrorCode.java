@@ -17,6 +17,7 @@ public enum ErrorCode {
     ADD_OR_UPDATE_BUILDING_FAIL(3004,"Failed to add or update building",HttpStatus.BAD_REQUEST),
     DELETE_BUILDING_FAIL(3005, "Failed to delete building", HttpStatus.BAD_REQUEST),
     ASSIGNMENT_CUSTOMER_FAIL(3006, "Failed to assign customer", HttpStatus.BAD_REQUEST),
+    SQL_INTEGRITY_CONSTRAINT_VIOLATION(4001, "user đã tồn tại", HttpStatus.BAD_REQUEST),
     SUCCESS(1000, "Success" , HttpStatus.OK),
     ;
 

@@ -44,7 +44,7 @@
                 <form:form action="/san-pham" method="get" modelAttribute="searchForm">
                     <div class="row">
                         <div class="col-12 col-md-3 search-item">
-                            <label class="search-text">Quận</label>
+                            <label class="search-text">Quận, Huyện</label>
                             <form:select class="form-control" path="district">
                                 <form:option value="">-----Bỏ chọn-----</form:option>
                                 <form:options items="${districts}"/>
@@ -77,24 +77,25 @@
                                 <h5 class="product1-content-header">
                                     <a href="/san-pham/${building.id}"><c:out value="${building.name}"/></a>
                                 </h5>
-                                <p class="product1-content-title text-muted"><c:out value="${building.rentPriceDescription}"/></p>
+
                                 <ul class="product1-content-list list-unstyled">
+                                    <li class="product1-content-item d-flex align-items-center">
+                                        <i class="fa fa-location-dot me-2"></i>
+                                        <span><c:out value="${building.note}"/></span>
+                                    </li>
                                     <li class="product1-content-item d-flex align-items-center">
                                         <i class="fa fa-location-dot me-2"></i>
                                         <span><c:out value="${districts[building.district]}"/></span>
                                     </li>
-                                    <li class="product1-content-item d-flex align-items-center">
-                                        <i class="fa fa-building me-2"></i>
-                                        <span>Loại BĐS: <c:out value="${building.typeCode}"/></span>
-                                    </li>
+
                                     <li class="product1-content-item d-flex align-items-center">
                                         <i class="fa fa-globe me-2"></i>
-                                        <span>Diện tích: <c:out value="${building.floorArea}"/></span>
+                                        <span>Diện tích: <c:out value="${building.floorArea}"/> m2</span>
                                     </li>
                                 </ul>
                             </div>
                             <div class="product1-footer card-footer d-flex justify-content-between align-items-center">
-                                <span class="product1-footer-cost text-primary fw-bold"><c:out value="${building.rentPrice}"/></span>
+                                <span class="product1-footer-cost text-primary fw-bold"><c:out value="${building.rentPriceDescription}"/></span>
                                 <a href="${building.id}" class="btn btn-primary btn-sm">Xem chi tiết</a>
                             </div>
                         </div>
@@ -133,12 +134,12 @@
 
         <!-- FOOTER  -->
         <footer class="footer">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="top-footer text-center mt-0">
                     <div class="logo logo-footer pt-5">
-                        <a href="./ViewHome.html"><img src="https://bizweb.dktcdn.net/100/328/362/themes/894751/assets/logo_footer.png?1676257083798"
-                                                       alt="logo-footer"></a>
-                        <p class="desc-logo-footer mt-3">Với hơn 10 năm kinh nghiệm, SkyLand tự hào là sàn
+                        <a href="./trang-chu"><img src="https://bizweb.dktcdn.net/100/328/362/themes/894751/assets/logo_footer.png?1676257083798"
+                                                   alt="logo-footer"></a>
+                        <p class="desc-logo-footer mt-3">Với hơn 100 năm kinh nghiệm, SkyLand tự hào là sàn
                             mua
                             bán, giao dịch và quảng cáo
                             bất động sản hàng đầu tại Việt Nam</p>
@@ -150,7 +151,7 @@
                                     </div>
                                     <div class="content-center-footer">
                                         <p class="mb-1 mt-3">Trụ sở chính</p>
-                                        <p class="desc-footer">Số 46 Man Thiện, TP Thủ Đức, TP HCM</p>
+                                        <p class="desc-footer">Số 30 Yên Nghĩa, Hà Đông, TP Hà Nội</p>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-4 text-center">
@@ -159,7 +160,7 @@
                                     </div>
                                     <div class="content-center-footer">
                                         <p class="mb-1 mt-3">Hotline</p>
-                                        <p class="desc-footer"><a class="a-text" href="#">098828</a></p>
+                                        <p class="desc-footer"><a class="a-text" href="/lien-he">0984765423</a></p>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-4 text-center">
@@ -168,7 +169,7 @@
                                     </div>
                                     <div class="content-center-footer">
                                         <p class="mb-1 mt-3">Email</p>
-                                        <p class="desc-footer"><a class="a-text" href="#">vsh@gmail.com</a>
+                                        <p class="desc-footer"><a class="a-text" href="/lien-he">nkl@gmail.com</a>
                                         </p>
                                     </div>
                                 </div>
@@ -179,7 +180,7 @@
                         <div class="border-bottom mb-5 mt-4"></div>
                     </div>
                 </div>
-                <div class="bottom-footer">
+                <div class="bottom-footer container">
                     <div class="row">
                         <div class="col-12 col-md-3">
                             <h4 class="title-item-bottom-footer">Thông tin công ty</h4>

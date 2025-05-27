@@ -209,6 +209,12 @@
                                     <form:input class="form-control" path="note"></form:input>
                                 </div>
                             </div>
+                        <div class="form-group">
+                            <label  class="col-xs-3">địa chỉ google map</label>
+                            <div class="col-xs-9">
+                                <form:input class="form-control" path="mapEmbedUrl"></form:input>
+                            </div>
+                        </div>
 
                             <!-- Bắt đầu: Mục ảnh minh họa -->
                             <div class="form-group">

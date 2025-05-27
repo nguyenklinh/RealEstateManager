@@ -57,6 +57,11 @@ public class BuildingEntity extends BaseEntity{
     @Column(name= "managerphone")
     private String managerPhone;
 
+    @Column(name = "mapembedurl", length = 1000)
+    private String mapEmbedUrl;
+
+    @Column(name = "note")
+    private String note;
 
 //    @ManyToMany(mappedBy = "buildingEntities", cascade = CascadeType.MERGE)
 //    private List<UserEntity> userEntities = new ArrayList<>();
@@ -69,6 +74,22 @@ public class BuildingEntity extends BaseEntity{
     @OneToMany(mappedBy = "buildingEntity", cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonIgnore
     List<RentAreaEntity> rentAreaEntities = new ArrayList<>();
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getMapEmbedUrl() {
+        return mapEmbedUrl;
+    }
+
+    public void setMapEmbedUrl(String mapEmbedUrl) {
+        this.mapEmbedUrl = mapEmbedUrl;
+    }
 
     public String getManagerPhone() {
         return managerPhone;

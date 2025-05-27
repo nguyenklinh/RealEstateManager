@@ -141,7 +141,8 @@
                 window.location.href = "<c:url value='/admin/user-edit-"+res.id+"?message=insert_success'/>";
             },
             error: function (res) {
-                window.location.href = "<c:url value='/admin/user-edit-"+res.id+"?message=error_system'/>";
+                alert(res.message);
+                window.location.href = "<c:url value='/admin/user-edit?message=error_system'/>";
             }
         });
     }

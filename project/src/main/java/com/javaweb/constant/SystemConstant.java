@@ -19,7 +19,7 @@ public class SystemConstant {
     public static final String ERROR_SYSTEM = "error_system";
     public static final String ALERT = "alert";
     public static final String MESSAGE_RESPONSE = "messageResponse";
-    public static final String PASSWORD_DEFAULT = "123456";
+    public static final String PASSWORD_DEFAULT = "$2a$10$/RUbuT9KIqk6f8enaTQiLOXzhnUkiwEJRdtzdrMXXwU7dgnLKTCYG";
     public static final String CHANGE_PASSWORD_FAIL = "change_password_fail";
     public static final String BUILDING_NOT_FOUND = "BUILDING_NOT_FOUND";
 }

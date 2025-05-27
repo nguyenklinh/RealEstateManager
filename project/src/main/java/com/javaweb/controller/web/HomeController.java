@@ -8,7 +8,6 @@ import com.javaweb.model.request.SearchForm;
 import com.javaweb.model.response.BuildingSearchResponse;
 import com.javaweb.repository.BuildingRepository;
 import com.javaweb.service.BuildingService;
-import com.javaweb.utils.DistrictCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

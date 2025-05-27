@@ -39,11 +39,20 @@ public class BuildingDTO extends AbstractDTO{
     private String avatar;
     private String imageBase64;
     private String imageName;
+    private String mapEmbedUrl;
 
     private Map<String,String> buildingDTOs = new HashMap<>();
 
     public Map<String, String> getBuildingDTOs() {
         return buildingDTOs;
+    }
+
+    public String getMapEmbedUrl() {
+        return mapEmbedUrl;
+    }
+
+    public void setMapEmbedUrl(String mapEmbedUrl) {
+        this.mapEmbedUrl = mapEmbedUrl;
     }
 
     public String getNote() {
